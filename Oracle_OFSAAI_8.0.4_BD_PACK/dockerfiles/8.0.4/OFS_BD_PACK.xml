@@ -1,0 +1,102 @@
+<APP_PACK_CONFIG>
+        <APP_PACK_ID>OFS_BD_PACK</APP_PACK_ID>
+        <APP_PACK_NAME>Financial Services Behavior Detection Applications Pack</APP_PACK_NAME>
+        <APP_PACK_DESCRIPTION>Applications for Behavior Detection Management</APP_PACK_DESCRIPTION>
+        <VERSION>8.0.4.0.0</VERSION>
+        <APP>
+                <APP_ID PREREQ="" ENABLE="YES" DEF_SEL_FLG="YES">OFS_AAI</APP_ID>
+                <APP_NAME>Financial Services Analytical Applications Infrastructure</APP_NAME>
+                <APP_DESCRIPTION>Base Infrastructure for Analytical Applications</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="YES">OFS_IPE</APP_ID>
+                <APP_NAME>Financial Services Inline Processing Engine</APP_NAME>
+                <APP_DESCRIPTION>Base Infrastructure for Inline Processing Engine</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_AML</APP_ID>
+                <APP_NAME>Financial Services Anti Money Laundering</APP_NAME>
+                <APP_DESCRIPTION>Application for Anti Money Laundering</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_FRAUD</APP_ID>
+                <APP_NAME>Financial Services Fraud</APP_NAME>
+                <APP_DESCRIPTION>Application for Fraud</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI,OFS_IPE" ENABLE="">OFS_FRAUD_EE</APP_ID>
+                <APP_NAME>Financial Services Fraud Enterprise Edition</APP_NAME>
+                <APP_DESCRIPTION>Application for Fraud Enterprise Edition</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_TC</APP_ID>
+                <APP_NAME>Financial Services Trader Compliance</APP_NAME>
+                <APP_DESCRIPTION>Application for Trader Compliance</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+
+        <APP>
+                <APP_ID PREREQ="OFS_AAI,OFS_TC" ENABLE="">OFS_TB</APP_ID>
+                <APP_NAME>Financial Services Trade Blotter</APP_NAME>
+                <APP_DESCRIPTION>Application for Trade Blotter</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI,OFS_TC" ENABLE="">OFS_PTA</APP_ID>
+                <APP_NAME>Financial Services Personal Trading Approval</APP_NAME>
+                <APP_DESCRIPTION>Application for Personal Trading Approval</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_BC</APP_ID>
+                <APP_NAME>Financial Services Broker Compliance</APP_NAME>
+                <APP_DESCRIPTION>Application for Broker Compliance</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_ECTC</APP_ID>
+                <APP_NAME>Financial Services Energy and Commodity Trading Compliance</APP_NAME>
+                <APP_DESCRIPTION>Application for Energy and Commodity Trading Compliance</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_ECM</APP_ID>
+                <APP_NAME>Financial Services Enterprise Case Management</APP_NAME>
+                <APP_DESCRIPTION>Application for Enterprise Case Management</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+
+        <APP>
+                <APP_ID PREREQ="OFS_AAI,OFS_ECM" ENABLE="">OFS_KYC</APP_ID>
+                <APP_NAME>Financial Services Know Your Customer</APP_NAME>
+                <APP_DESCRIPTION>Application for KYC Compliance</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_CTR</APP_ID>
+                <APP_NAME>Financial Services Currency Transaction Reporting</APP_NAME>
+                <APP_DESCRIPTION>Application for Currency Transaction Reporting</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI,OFS_ECM" ENABLE="">OFS_FATCA</APP_ID>
+                <APP_NAME>Financial Services Foreign Account Tax Compliance Act Management</APP_NAME>
+                <APP_DESCRIPTION>Application for Foreign Account Tax Compliance Act Management</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+        <APP>
+                <APP_ID PREREQ="OFS_AAI" ENABLE="">OFS_CRSR</APP_ID>
+                <APP_NAME>Financial Services Common Reporting Standard</APP_NAME>
+                <APP_DESCRIPTION>Application for Common Reporting Standard</APP_DESCRIPTION>
+                <VERSION>8.0.4.0.0</VERSION>
+        </APP>
+</APP_PACK_CONFIG>

@@ -1,0 +1,45 @@
+#!/usr/bin/env expect 
+
+###########################################################################################
+## Purpose:     This script is to execute the Oracle Schema Creator and interact.
+##              It automates the answers required by the OSC.sh script.
+## Maintained By:  Andy Baker.
+## NOTES:  The OSC.sh is a shell script with 5 questions.  THis is an Expect script to automate it.
+###########################################################################################
+
+##
+# 1. Change to directory due to hard coded installer.
+##
+cd /u01/oracle/OFSAA/DOWNLOAD/OFS_BD_PACK/schema_creator/bin
+ 
+##
+# 2. Spawn a OSC>sh script in silent mode.
+#    As each question comes up, wait expect and send as needed.
+##
+set timeout -1
+spawn ./osc.sh -s
+ 
+expect "Triggering the utility in ONLINE mode will execute the DDLs directly on the Database. Do you wish to proceed? (Y/N):\r"
+ 
+send -- "Y\r"
+ 
+expect "Enter the DB User Name With SYSDBA Privileges:\r"
+ 
+send -- "SYS as SYSDBA\r"
+ 
+expect "Enter the User Password:\r"
+ 
+send -- "Oradoc_db1\r"
+
+expect "You have chosen to install this Application Pack on \"ofsaafccm\" ATOMIC schema. Do you want to proceed? (Y/N)\r"
+
+send -- "Y\r"
+
+expect "You have chosen to install this Application Pack on INFODOM \"fccminfo\". Do you want to proceed? (Y/N)\r"
+
+send -- "Y\r"
+ 
+expect eof
+##
+# 3. Finish and onto the next installer.
+##

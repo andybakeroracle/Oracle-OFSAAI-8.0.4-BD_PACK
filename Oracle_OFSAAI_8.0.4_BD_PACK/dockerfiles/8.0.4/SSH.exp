@@ -1,0 +1,106 @@
+#!/usr/bin/bash
+
+#############################################################################################################
+##  Purpose:   This script is an expect script to validate and set up the SFTP/SSH from all servers
+##             The script will generate key and copy to FMWAS, DB servers allowing APP server SSH keyless 
+##             Access.
+##  Maintained By : Andy Baker
+##  NOTES : This script will 1 by 1 sftp to each server as the oracle user.
+##          thus setting up the known hosts file. It also set up SSH key for keyless entry from App.
+#############################################################################################################
+
+##
+# Expect function to Test / Configure SSH/SFTP.
+##
+SFTP_SETUP () {
+expect - <<EOF
+set timeout 20
+
+spawn $cmd
+expect {
+    "assword: " {
+        send "$password\n"
+        expect {
+            "again."     { exit 1 }
+            "expecting." { }
+            timeout      { exit 1 }
+               }
+                }
+    "(yes/no)? " {
+        send "yes\n"
+        expect {
+            "assword: " {
+                send "$password\n"
+                expect {
+                    "again."     { exit 1 }
+                    "expecting." { }
+                    timeout      { exit 1 }
+                       }
+                        }
+                }
+                  }
+         }
+EOF
+}
+
+##
+# 0. Run the KeyGen As the Oracle user, This creates the required SSH key for this host.
+#    This will generate without Prompts the RSA.pub key files for Oracle user in $HOME/.ssh
+##
+echo ""
+echo "SSH Key Gen As The Oracle User."
+echo ""
+ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+
+##
+# 1.  Set up variables for first call. FMW Admin Server. Use SSH-COPY-ID to share the rsa public ssh and set
+up as SSH client.
+##
+echo "SSH setup for FCCMFMWAS......"
+export cmd='ssh-copy-id -i /u01/oracle/.ssh/id_rsa.pub oracle@FCCMFMWAS'
+export password=$FCCMAPPS_OS_PASSWORD
+echo ""
+##
+# 2. Now Call the Function.
+##
+SFTP_SETUP $cmd $password
+
+##
+# 3. Repeat for next server in the stack. App server itself. App install seems to use this for FTPSHARE Only.
+##
+echo "SSH setup for FCCMAPPS......"
+export cmd='ssh oracle@FCCMAPPS'
+echo ""
+SFTP_SETUP $cmd $password
+
+##
+# 4. Repeat for next server in the stack.  Database.
+##
+echo "SSH setup for FCCMDB......."
+export cmd='ssh oracle@FCCMDB'
+echo ""
+SFTP_SETUP $cmd $password
+
+##
+# 5. Append Hostname / Ip for this host into the FMW App Server as Web App server needs to talk to App server.
+#    Docker network is linked and only allows the reverse as FCCMFMWAS is linked to App server on docker run.
+##
+export HOST=`grep FCCMAPPS /etc/hosts`
+ssh -t FCCMFMWAS echo $HOST '| sudo tee -a /etc/hosts'
+
+echo ""
+echo ""
+echo "Added FCCMAPPS entry: $HOST to the FCCMFMWAS /etc/hosts file for networking."
+echo ""
+echo ""
+
+##
+# 6. Message output.
+##
+echo ""
+echo "=========================================="
+echo "SFTP and SSH now keys set up. Keys Below: "
+echo "=========================================="
+cat $HOME/.ssh/known_hosts
+echo "=========================================="
+echo ""

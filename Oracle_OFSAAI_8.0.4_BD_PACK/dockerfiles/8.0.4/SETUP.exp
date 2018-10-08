@@ -1,0 +1,41 @@
+#!/usr/bin/expect
+
+####################################################################################################
+## Name:   SETUP.exp
+## Purpose:  Fix the install and deal with interactive prompt.
+#            Goes to the OFSA AAI directory and run the validateXMLInputs.jar with the Validate Silent Option.
+#            This is done due to the jar prompting for the SFTP password to test SFTP to FTPSHARE.
+#            Note the script is called from preinstallcheck.sh in the AAI/BIN directory.
+#            An altered version is copied over during install to call this expect script and not the
+#            Normal Version.
+#
+#  Note: The Directory for the script and location is important due to OFSAA Install Hardcoding
+#
+## Maintained by: Andy Baker.
+####################################################################################################
+
+##
+# 1. go to the required directory main BP PACK bin.
+##
+cd /u01/oracle/OFSAA/DOWNLOAD/OFS_BD_PACK/bin
+
+##
+# 2. Set the Password and PACK ID as inputs.
+##
+set PASSWORD Ofsaa_123
+set PACK_ID  [lindex $argv 0]
+
+##
+# 3. Spawn the command and deal with the prompt. Execute just as preinstallcheck.sh does.
+##
+set timeout -1
+spawn java -jar ../OFS_AAI/bin/validateXMLInputs.jar VALIDATE SILENT
+
+expect " Please enter Infrastructure Application/Database component FTP/SFTP password :"
+
+send -- "$PASSWORD\r";
+
+##
+# 4. Finish and return to Continue the install
+##
+expect eof

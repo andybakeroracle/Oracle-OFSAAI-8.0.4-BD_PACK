@@ -1,0 +1,47 @@
+# .profile
+
+# User specific environment and startup programs
+
+##
+# Set the shell however also done on the account in /etc/password.
+##
+SHELL=/bin/ksh
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export PATH
+
+##
+#JAVA
+##
+## NOTE: Java Home required to be put first in the PATH or JAVA HOME errors appear. 
+##
+export JAVA_HOME=/usr/java/default
+export PATH=$JAVA_HOME/bin:.:$PATH
+export TNS_ADMIN=/u01/oracle/tnsadmin
+
+##
+# Oracle Home needs to be a run time or other full client. 12.1 has ojdbcX.jar versions 6,7 required. 12.2 only has 8.
+##
+export ORACLE_HOME=/u01/oracle/client/12.1.0.1
+export PATH=$PATH:/u01/oracle/client/12.1.0.1/bin
+
+##
+# Application Home Directories.
+##
+export FIC_HOME=/u01/oracle/OFSAA/FIC_HOME
+export BDF_HOME=$FIC_HOME
+export FTPSHARE=/u01/oracle/OFSAA/FTPSHARE
+export DOWNLOAD=/u01/oracle/OFSAA/DOWNLOAD
+
+##
+# Hostname and vi set up.
+##
+export PS1="${HOSTNAME}:\${PWD##*/} \$ " 
+set -o vi
+
+##
+# Run the Login Banner.sh 
+##
+if [ -f ~/.login_banner.sh ]; then
+        . ~/.login_banner.sh
+fi

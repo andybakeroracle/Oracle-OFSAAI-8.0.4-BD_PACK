@@ -1,0 +1,22 @@
+# .kshrc
+
+# Source global definitions
+if [ -f /etc/kshrc ]; then
+        . /etc/kshrc
+fi
+
+
+# User specific aliases and functions
+
+##
+# Force the SHELL set as this is caled in each shell.  profile on login.
+##
+SHELL=/bin/ksh
+
+##
+# Run the login Banner.
+##
+export PS1="${HOSTNAME}:\${PWD##*/} \$ "
+if [ -f ~/.login_banner.sh ]; then
+        . ~/.login_banner.sh
+fi

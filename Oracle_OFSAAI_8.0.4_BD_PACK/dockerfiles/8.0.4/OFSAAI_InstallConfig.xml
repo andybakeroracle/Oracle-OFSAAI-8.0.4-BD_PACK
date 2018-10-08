@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<UserInteractions>
+        <Layer name="GENERAL">
+                <InteractionGroup name="WebServerType" >
+                        <InteractionVariable name="WEBAPPSERVERTYPE">3</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="OFSAA Infrastructure Server Details">
+                        <InteractionVariable name="DBSERVER_IP">FCCMDB</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="Database Details" >
+                        <InteractionVariable name="ORACLE_SID/SERVICE_NAME">FCCMDB:1521/ORCLPDB1</InteractionVariable>
+                        <InteractionVariable name="ABS_DRIVER_PATH">/u01/oracle/client/12.1.0.1/jdbc/lib/</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="OLAP Detail">
+                    <InteractionVariable name="OLAP_SERVER_IMPLEMENTATION">0</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="SFTP Details">
+                    <InteractionVariable name="SFTP_ENABLE">1</InteractionVariable>
+                        <InteractionVariable name="FILE_TRANSFER_PORT">22</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="Locale Detail">
+                   <InteractionVariable name="LOCALE">en_US</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="OFSAA Infrastructure Communicating ports" >
+                        <InteractionVariable name="JAVAPORT">9999</InteractionVariable>
+                        <InteractionVariable name="NATIVEPORT">6666</InteractionVariable>
+                        <InteractionVariable name="AGENTPORT">6510</InteractionVariable>
+                        <InteractionVariable name="ICCPORT">6507</InteractionVariable>
+                        <InteractionVariable name="ICCNATIVEPORT">6509</InteractionVariable>
+                        <InteractionVariable name="OLAPPORT">10101</InteractionVariable>
+                        <InteractionVariable name="MSGPORT">6501</InteractionVariable>
+                        <InteractionVariable name="ROUTERPORT">6500</InteractionVariable>
+                        <InteractionVariable name="AMPORT">6505</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="WEB_DETAILS" >
+                    <InteractionVariable name="HTTPS_ENABLE">0</InteractionVariable>
+                    <InteractionVariable name="WEB_SERVER_IP">FCCMFMWAS</InteractionVariable>
+                        <InteractionVariable name="WEB_SERVER_PORT">7001</InteractionVariable>
+                        <InteractionVariable name="CONTEXT_NAME">OFSAAI</InteractionVariable>
+                        <InteractionVariable name="WEBAPP_CONTEXT_PATH">/u01/oracle/user_projects/domains/FCCM_Domain/applications</InteractionVariable>
+                        <InteractionVariable name="WEB_LOCAL_PATH">/u01/oracle/user_projects</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name=" Weblogic Setup Details" >
+                        <InteractionVariable name="WEBLOGIC_DOMAIN_HOME">/u01/oracle/user_projects/domains/FCCM_Domain</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="OFSAAI FTP Details">
+                           <InteractionVariable name="OFSAAI_FTPSHARE_PATH">/u01/oracle/OFSAA/FTPSHARE</InteractionVariable>
+                       <InteractionVariable name="OFSAAI_SFTP_USER_ID">oracle</InteractionVariable>
+                </InteractionGroup>
+                <InteractionGroup name="HIVE_DETAILS" >
+                        <InteractionVariable name="HIVE_SERVER_PORT">NA</InteractionVariable>
+                        <InteractionVariable name="HIVE_SERVER_FTPDRIVE">NA</InteractionVariable>
+                        <InteractionVariable name="HIVE_SERVER_FTP_USERID">NA</InteractionVariable>
+                        <InteractionVariable name="HIVE_SERVER_FTP_PROTOCOL">NA</InteractionVariable>
+                </InteractionGroup>
+        </Layer>
+</UserInteractions>
