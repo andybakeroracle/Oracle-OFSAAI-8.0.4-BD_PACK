@@ -1,0 +1,101 @@
+# LICENSE UPL 1.0
+#
+# Copyright (c) 1982-2017 Oracle and/or its affiliates. All rights reserved.
+#
+# ORACLE DOCKERFILES PROJECT
+# --------------------------
+# This is the Dockerfile for Oracle Database 12c Release 2 Enterprise Edition
+# 
+# REQUIRED FILES TO BUILD THIS IMAGE
+# ----------------------------------
+# (1) linuxx64_12201_database.zip
+#     Download Oracle Database 12c Release 12 Enterprise Edition for Linux x64
+#     from http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html
+#  CARE:  File is 3.4Gb in size!!! 2 big for a overlay storage. May work with Overlay 2.  for BTRFS OK.
+#         for device mapper you can use storage options but NOT advised for a DB due to Performance.
+#         Work Around.  Take single binary zip.  Unzip to a given directory on source worker.
+#         create a split file for it with tar. tar -czvf - /path/to/files | split -b 1536M - archive.tar.gz
+#         This gives us 1.5Gb (1024M + 512M) split files and then tidy up the source directory on the worker and remove the original 
+#         downloaded single zip file.  NOT needed.  You should have muliple files for archive.tar.gzaa, archive.tar.gzab etc.
+#
+#         code below then copies these files over and untars it in single command. cat archive.tar.* | tar -xzvf -
+# Problem with docker 1.12 and healthcheck so adjusted it.
+#
+# HOW TO BUILD THIS IMAGE
+# -----------------------
+# Put all downloaded files in the same directory as this Dockerfile
+# Run: 
+#      $ docker build -t oracle/database:12.2.0.1-ee . 
+#
+# Pull base image
+# ---------------
+FROM oraclelinux:7-slim
+
+# Maintainer
+# ----------
+MAINTAINER Andy Baker <andy.t.baker@oracle.com>
+
+# Environment variables required for this build (do NOT change)
+# -------------------------------------------------------------
+ENV ORACLE_BASE=/opt/oracle \
+    ORACLE_HOME=/opt/oracle/product/12.2.0.1/dbhome_1 \
+    INSTALL_FILES="linuxx64_12201_database.tar.gz*" \
+    INSTALL_RSP="db_inst.rsp" \
+    CONFIG_RSP="dbca.rsp.tmpl" \
+    PWD_FILE="setPassword.sh" \
+    RUN_FILE="runOracle.sh" \
+    START_FILE="startDB.sh" \
+    CREATE_DB_FILE="createDB.sh" \
+    SETUP_LINUX_FILE="setupLinuxEnv.sh" \
+    CHECK_SPACE_FILE="checkSpace.sh" \
+    CHECK_DB_FILE="checkDBStatus.sh" \
+    USER_SCRIPTS_FILE="runUserScripts.sh" \
+    INSTALL_DB_BINARIES_FILE="installDBBinaries.sh"
+
+# Use second ENV so that variable get substituted
+ENV INSTALL_DIR=$ORACLE_BASE/install \
+    PATH=$ORACLE_HOME/bin:$ORACLE_HOME/OPatch/:/usr/sbin:$PATH \
+    LD_LIBRARY_PATH=$ORACLE_HOME/lib:/usr/lib \
+    CLASSPATH=$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+
+# Copy binaries
+# -------------
+COPY $INSTALL_FILES $INSTALL_RSP $SETUP_LINUX_FILE $CHECK_SPACE_FILE $INSTALL_DB_BINARIES_FILE $INSTALL_DIR/
+COPY $RUN_FILE $START_FILE $CREATE_DB_FILE $CONFIG_RSP $PWD_FILE $CHECK_DB_FILE $USER_SCRIPTS_FILE $ORACLE_BASE/
+
+RUN chmod ug+x $INSTALL_DIR/*.sh && \
+    sync && \
+    $INSTALL_DIR/$CHECK_SPACE_FILE && \
+    $INSTALL_DIR/$SETUP_LINUX_FILE
+
+#Fix Pam authority for sftp and su, ssh due to oracle rpm.
+COPY pam.d/* /etc/pam.d/
+
+# Install DB software binaries
+USER oracle
+RUN $INSTALL_DIR/$INSTALL_DB_BINARIES_FILE EE
+
+USER root
+RUN $ORACLE_BASE/oraInventory/orainstRoot.sh && \
+    $ORACLE_HOME/root.sh
+
+# Commented out below due to storage corruption on overlayFS and d_type not enable. V1.12 and Oracle cloud.
+# Issue is that it will corrupt the files as they were created in an earlier container.
+#    $ORACLE_HOME/root.sh && \
+#    rm -rf $INSTALL_DIR
+
+USER oracle
+WORKDIR /home/oracle
+
+VOLUME ["$ORACLE_BASE/oradata"]
+EXPOSE 1521 5500
+
+# Commented out and changed due to version 1.12 docker. --start-period not available.
+#HEALTHCHECK --interval=1m --start-period=5m \
+#   CMD "$ORACLE_BASE/$CHECK_DB_FILE" >/dev/null || exit 1
+
+HEALTHCHECK --interval=1m \
+   CMD "$ORACLE_BASE/$CHECK_DB_FILE" >/dev/null || exit 1
+
+# Define default command to start Oracle Database. 
+CMD exec $ORACLE_BASE/$RUN_FILE
