@@ -44,7 +44,9 @@ Due to overlayfs storage and limits in file size the binaries over 1.6Gb need to
 ###
 # Building the FMW Infrastructure 12.2.1.3
 ##
- 
+you need to download the correct binaries and place into the dockerfiles directory for this version.  The scripts and readme for this are all in the folder ../FMWINFRSTRUCTURE.  The install of this image will also set up sshd as well as some scripts into container scripts for WLST JNDI creation as well as application deployment.  It is critical the database image, JDK and linux images are avaiable first.  Image creation does a base install, however it is only running the containers for the admin server that will create the domains and the admin server.  The RCU will also be executed during the container run.
+
+The managed server start is also included and can be used.  However for this POC of OFSAAI it is not required.  The application is deployed only to the admin server.
 
 ###
 # Building the Oracle FCCM 8.0.4 base image
