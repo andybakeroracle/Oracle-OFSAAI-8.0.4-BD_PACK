@@ -46,6 +46,7 @@ mkdir -p $ORACLE_HOME/network/admin
 echo "NAME.DIRECTORY_PATH= (TNSNAMES, EZCONNECT, HOSTNAME)" > $ORACLE_HOME/network/admin/sqlnet.ora
 echo "SQLNET.ALLOWED_LOGON_VERSION_SERVER=10" >> $ORACLE_HOME/network/admin/sqlnet.ora
 echo "SQLNET.ALLOWED_LOGON_VERSION_CLIENT=10" >> $ORACLE_HOME/network/admin/sqlnet.ora
+echo "SQLNET.EXPIRE_TIME=10" >> $ORACLE_HOME/network/admin/sqlnet.ora
 
 # Listener.ora
 echo "LISTENER = 
