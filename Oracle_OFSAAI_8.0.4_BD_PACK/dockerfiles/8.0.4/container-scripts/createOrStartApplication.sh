@@ -57,6 +57,13 @@ sudo /usr/sbin/sshd -D &
 echo "========================================"
 echo ""
 echo ""
+echo "========================================"
+echo "==Dealing with Random / Urandom =="
+sudo /bin/rm /dev/random 
+sudo /bin/ln -s /dev/urandom /dev/random
+echo "========================================"
+echo ""
+echo ""
 echo "============================================="
 echo "== Configuring Application for first time "
 echo "== If the application has already been Configured"
